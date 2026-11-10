@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Varisai Canteen Queue</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">V</span>
+        <div class="brand-copy">
+          <strong>Varisai</strong>
+          <small>Smart Canteen OS</small>
+        </div>
+      </div>
+      <div class="live-pill"><span class="pulse"></span>Live kitchen board</div>
+    </header>
+
+    <main class="dashboard">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Smart campus canteen</p>
+          <h1>Canteen Queue Management</h1>
+          <p>Register your order, track preparation, and receive a live alert when your meal is ready.</p>
+        </div>
+        <div class="date-badge" id="date"></div>
+      </section>
+
+      <div class="layout">
+        <aside class="panel form-panel">
+          <h2>New order</h2>
+          <p class="hint">Fast-moving requests are prioritised for kitchen efficiency.</p>
+
+          <form id="form">
+            <label>Priority / user type</label>
+            <select id="priority">
+              <option value="students">Students</option>
+              <option value="staffs">Staffs</option>
+            </select>
+
+            <label>Mobile number</label>
+            <input id="mobileNumber" type="tel" inputmode="numeric" maxlength="10" placeholder="e.g. 9876543210" />
+
+            <label>Phone / order ID</label>
+            <input id="orderId" maxlength="20" placeholder="e.g. C-20481 or 98765 43210" />
+
+            <label>Meal category</label>
+            <div class="choices">
+              <label class="choice">
+                <input type="radio" name="service" value="Breakfast" checked />
+                Breakfast
+              </label>
+              <label class="choice">
+                <input type="radio" name="service" value="Beverages" />
+                Beverages
+              </label>
+              <label class="choice">
+                <input type="radio" name="service" value="Lunch" />
+                Lunch
+              </label>
+              <label class="choice">
+                <input type="radio" name="service" value="Snacks" />
+                Snacks
+              </label>
+            </div>
+
+            <label>Menu item</label>
+            <select id="menuItem"></select>
+
+            <label>Price (₹)</label>
+            <input id="price" required type="number" min="0" step="0.01" placeholder="e.g. 120" />
+
+            <button type="submit" class="wide">Register &amp; get queue token</button>
+            <button type="button" class="wide alt" id="resetSession">Start New Billing</button>
+          </form>
+
+          <div class="ticket" id="ticket">
+            <span class="hint">YOUR TOKEN</span>
+            <strong id="ticketNo">—</strong>
+            <span id="ticketInfo"></span>
+            <span id="billTime" class="hint"></span>
+            <b id="position"></b>
+            <span class="hint" id="estimate"></span>
+          </div>
+        </aside>
+
+        <section class="main-panel">
+          <div class="status-banner">
+            <div>
+              <span class="eyebrow">Currently in kitchen</span>
+              <strong id="now">No active order</strong>
+              <small id="nowName">The kitchen is ready for the next order</small>
+            </div>
+
+            <div class="station-tag">
+              SERVICE LINE<br />
+              <b id="counter">—</b>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat"><b id="waiting">0</b><span>Waiting</span></div>
+            <div class="stat"><b id="prep">0</b><span>Preparing</span></div>
+            <div class="stat"><b id="ready">0</b><span>Ready</span></div>
+            <div class="stat"><b id="served">0</b><span>Completed</span></div>
+          </div>
+
+          <div class="content-grid">
+            <section class="panel">
+              <div class="toolbar">
+                <h2>Kitchen queue board</h2>
+
+                <div class="tabs">
+                  <button class="active" data-filter="all">All</button>
+                  <button data-filter="waiting">Waiting</button>
+                  <button data-filter="priority">Express</button>
+                </div>
+              </div>
+
+              <div id="list"></div>
+            </section>
+
+            <aside class="side-panel">
+              <section class="panel">
+                <h3>Service counters</h3>
+                <div id="counters"></div>
+              </section>
+
+              <section class="panel">
+                <h3>Kitchen traffic</h3>
+                <div class="analytics">
+                  <div class="bar" style="height: 38%"><i>9</i></div>
+                  <div class="bar" style="height: 55%"><i>11</i></div>
+                  <div class="bar hot" style="height: 80%"><i>1</i></div>
+                  <div class="bar" style="height: 62%"><i>3</i></div>
+                  <div class="bar" style="height: 44%"><i>5</i></div>
+                  <div class="bar hot" style="height: 68%"><i>7</i></div>
+                </div>
+
+                <div class="foot-stat">
+                  <span><b id="todayTotal">0</b> Orders tonight</span>
+                  <span>Peak: 12:30</span>
+                </div>
+              </section>
+            </aside>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+    <div class="phone-alert" id="phoneAlert" role="status" aria-live="assertive">
+      <div class="phone-icon">🔔</div>
+      <div>
+        <small>VARISAI • KITCHEN ALERT</small>
+        <strong id="alertTitle">Your order is ready</strong>
+        <p id="alertMessage">Please proceed to the pickup counter.</p>
+      </div>
+    </div>
+
+    <script src="index.js" defer></script>
+  </body>
+</html>
+
